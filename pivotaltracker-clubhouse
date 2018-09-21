@@ -16,13 +16,13 @@ def _run():
     limit = int(response.headers['x-tracker-pagination-limit'])
 
     while offset < total:
-        print "offset={0}, batch_size={1}, total={2}".format(offset, limit, total)
+        print("offset={0}, batch_size={1}, total={2}".format(offset, limit, total))
         pstories, limit, offset, total = _fetch_batch(offset, purl, pheaders, pquery)
         cstories = [_convert_story(pstory, args.cproject) for pstory in pstories]
         if args.dry_run:
-            print '{} total stories retrieved: '.format(len(cstories))
+            print('{} total stories retrieved: '.format(len(cstories)))
             for story in cstories:
-                print ' {}, type: {}'.format(story['name'], story['story_type'])
+                print(' {}, type: {}'.format(story['name'], story['story_type']))
         else:
             _upload_batch(cstories, args.ctoken)
         offset += limit
